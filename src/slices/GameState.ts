@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction, SliceSelectors} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 enum TicTacToeSymbols { // TODO: customise mapping
     X = 'X',
@@ -44,10 +44,11 @@ export const gameStateSlice = createSlice({
             if (state.status === GameStateStatus.PLAYING && state.board[x][y] === null) {
                 state.board[x][y] = state.currentPlayer;
                 state.status = checkGameStatus(state.board);
+
+                if (state.status === GameStateStatus.PLAYING) {
+                    state.currentPlayer = state.currentPlayer === TicTacToeSymbols.X ? TicTacToeSymbols.O : TicTacToeSymbols.X;
+                }
             }
-        },
-        changePlayer(state: GameStateIF) {
-            state.currentPlayer = state.currentPlayer === TicTacToeSymbols.X ? TicTacToeSymbols.O : TicTacToeSymbols.X;
         },
 
     }
@@ -84,4 +85,5 @@ function checkGameStatus(board: (string|null)[][]):GameStateStatus {
     return GameStateStatus.GAME_OVER;
 }
 
+export const gameStateActions = gameStateSlice.actions;
 export default gameStateSlice.reducer;

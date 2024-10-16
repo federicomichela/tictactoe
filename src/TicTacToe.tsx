@@ -1,13 +1,16 @@
 import {GridCell} from "./GridCell";
 import './TicTacToe.css';
 import React from "react";
+import { useDispatch } from 'react-redux';
 import {store} from "./store/store";
+import {gameStateActions} from "./slices/GameState";
 
 interface TicTacToeProps {
     size: number;
 }
 
 export function TicTacToe({size} : TicTacToeProps) {
+    const dispatch = useDispatch();
     document.documentElement.style.setProperty('--grid-size', `${size}`);
 
     const gameBoard = store.getState().gameState.board;
@@ -23,7 +26,7 @@ export function TicTacToe({size} : TicTacToeProps) {
                     <GridCell
                         key={`${row}-${col}`}
                         symbol={gameBoard[row][col]}
-                        onClick={() => {}}
+                        onClick={() => dispatch(gameStateActions.makeMove({x: row, y: col}))}
                     />
                 );
             }

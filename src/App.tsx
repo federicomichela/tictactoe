@@ -1,17 +1,12 @@
 import React from 'react';
 import {TicTacToe} from "./TicTacToe";
 import './App.css';
-import {useSelector} from "react-redux";
 import {store} from "./store/store";
 import {GameStateIF} from "./slices/GameState";
 
 function App() {
-  console.log(store.getState().gameState);
   const game:GameStateIF = store.getState().gameState as GameStateIF;
   const boardSize = game.boardSize;
-
-  // console.log(gameBoard);
-  // console.log(gameBoardSize);
 
   return (
     <div className="App">
