@@ -5,7 +5,7 @@ enum TicTacToeSymbols { // TODO: customise mapping
     O = 'O'
 }
 
-enum GameStateStatus {
+export enum GameStateStatus {
     IDLE,
     PLAYING,
     GAME_OVER,
@@ -36,14 +36,18 @@ export const gameStateSlice = createSlice({
             }
         },
         resetBoard(state: GameStateIF) {
-            state = { ...initialState };
+            Object.assign(state, initialState);
         },
         makeMove(state: GameStateIF, action: PayloadAction<{x:number, y:number}>) {
             const { x, y } = action.payload;
 
+            if (state.status === GameStateStatus.IDLE) {
+                state.status = GameStateStatus.PLAYING;
+            }
+
             if (state.status === GameStateStatus.PLAYING && state.board[x][y] === null) {
                 state.board[x][y] = state.currentPlayer;
-                state.status = checkGameStatus(state.board);
+                state.status = checkGameStatus(state.board, state.currentPlayer);
 
                 if (state.status === GameStateStatus.PLAYING) {
                     state.currentPlayer = state.currentPlayer === TicTacToeSymbols.X ? TicTacToeSymbols.O : TicTacToeSymbols.X;
@@ -54,7 +58,7 @@ export const gameStateSlice = createSlice({
     }
 })
 
-function checkGameStatus(board: (string|null)[][]):GameStateStatus {
+function checkGameStatus(board: (string|null)[][], symbol: TicTacToeSymbols):GameStateStatus {
     const boardSize = board.length;
 
     // check for idle
@@ -64,25 +68,32 @@ function checkGameStatus(board: (string|null)[][]):GameStateStatus {
 
     for (let index = 0; index < boardSize; index++) {
         // check rows
-        if (board[index].every((cell) => cell === board[index][0])) {
+        if (board[index].every((cell) => cell === symbol)) {
             return GameStateStatus.WIN;
         }
 
         // check cols
-        if (board.every((row) => row[index] !== null && row[index] === board[0][index])) {
+        if (board.every((row) => row[index] !== null && row[index] === symbol)) {
             return GameStateStatus.WIN;
         }
     }
 
     // check diagonals
-    const leftDiagonal = board.every((row, i) => row[i] === board[0][0]);
-    const rightDiagonal = board.every((row, i) => row[boardSize - i - 1] === board[0][boardSize - 1])
+    const leftDiagonal = board.every((row, i) => row[i] === symbol);
+    const rightDiagonal = board.every((row, i) => row[boardSize - i - 1] === symbol)
+    const movesLeft = board.some(row => row.includes(null));
 
-    if ( leftDiagonal || rightDiagonal) {
+    console.log(movesLeft);
+
+    if (leftDiagonal || rightDiagonal) {
         return GameStateStatus.WIN;
     }
 
-    return GameStateStatus.GAME_OVER;
+    if (!movesLeft) {
+        return GameStateStatus.GAME_OVER;
+    }
+
+    return GameStateStatus.PLAYING;
 }
 
 export const gameStateActions = gameStateSlice.actions;

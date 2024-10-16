@@ -22,3 +22,8 @@
     cursor: pointer;
     background: #61dafb;
 }
+.grid-cell--disabled {
+    pointer-events: none;
+    cursor: default;
+    background-color: darkgray;
+}
