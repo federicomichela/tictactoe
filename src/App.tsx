@@ -1,22 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
+import {TicTacToe} from "./TicTacToe";
 import './App.css';
+import {useSelector} from "react-redux";
+import {store} from "./store/store";
+import {GameStateIF} from "./slices/GameState";
 
 function App() {
+  console.log(store.getState().gameState);
+  const game:GameStateIF = store.getState().gameState as GameStateIF;
+  const boardSize = game.boardSize;
+
+  // console.log(gameBoard);
+  // console.log(gameBoardSize);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <TicTacToe size={boardSize} />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Tic Tac Toe
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href=""
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          View on Github
         </a>
       </header>
     </div>
