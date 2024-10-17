@@ -1,5 +1,5 @@
 import {GridCell} from "./GridCell";
-import './TicTacToe.css';
+import './TicTacToe.scss';
 import React from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import GameState, {gameStateActions, GameStateStatus} from "./slices/GameState";
@@ -45,21 +45,36 @@ export function TicTacToe({size} : TicTacToeProps) {
             return (
                 <>
                     <h1>{text.GAME_OVER}</h1>
-                    <button className="game_btn--default" onClick={() => dispatch(gameStateActions.resetBoard())}>{text.NEW_GAME}</button>
+                    <button
+                        className="game_btn--default"
+                        onClick={() => dispatch(gameStateActions.resetBoard())}
+                    >
+                        {text.NEW_GAME}
+                    </button>
                 </>
             )
         } else if (gameStatus === GameStateStatus.WIN) {
             return (
                 <>
-                    <h1>{text.GAME_WON}</h1>)
-                    <button className="game_btn--default" onClick={() => dispatch(gameStateActions.resetBoard())}>{text.NEW_GAME}</button>
+                    <h1>{text.GAME_WON}</h1>
+                    <button
+                        className="game_btn--default"
+                        onClick={() => dispatch(gameStateActions.resetBoard())}
+                    >
+                        {text.NEW_GAME}
+                    </button>
                 </>
             )
         } else if (gameStatus === GameStateStatus.PLAYING) {
             return (
                 <>
                     <h2>{text.CURRENT_PLAYER} {currentPlayer}</h2>
-                    <button className="game_btn--danger" onClick={() => dispatch(gameStateActions.resetBoard())}>{text.GAME_RESET}</button>
+                    <button
+                        className="game_btn--default"
+                        onClick={() => dispatch(gameStateActions.resetBoard())}
+                    >
+                        {text.GAME_RESET}
+                    </button>
                 </>
             )
         } else {

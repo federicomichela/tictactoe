@@ -1,6 +1,6 @@
 :root {
     --grid-size: 0;
-    --grid-cell-size: 4vmax;
+    --grid-cell-size: 2em;
 }
 
 .grid-container {
@@ -17,6 +17,9 @@
     aspect-ratio: 1 / 1;
     border: 1px solid whitesmoke;
     border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .grid-cell:hover {
     cursor: pointer;
@@ -26,4 +29,14 @@
     pointer-events: none;
     cursor: default;
     background-color: darkgray;
+}
+
+.game_btn {
+    &--default {
+        @apply bg-blue-500 text-white font-bold py-2 px-4 rounded-full;
+
+        :hover {
+            @apply bg-blue-700;
+        }
+    }
 }
