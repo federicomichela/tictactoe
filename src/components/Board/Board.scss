@@ -1,0 +1,8 @@
+.board_container {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(var(--grid-size) * var(--board-cell-size));
+}
+.board_row {
+  display: flex;
+}

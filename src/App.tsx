@@ -2,10 +2,10 @@ import React from 'react';
 import {TicTacToe} from "./TicTacToe";
 import './App.css';
 import {store} from "./store/store";
-import {GameStateIF} from "./slices/GameState";
+import {MatchProps} from "./slices/MatchSlice";
 
 function App() {
-  const game:GameStateIF = store.getState().gameState as GameStateIF;
+  const game:MatchProps = store.getState().match as MatchProps;
   const boardSize = game.boardSize;
 
   return (

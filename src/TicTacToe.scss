@@ -1,34 +1,6 @@
 :root {
     --grid-size: 0;
-    --grid-cell-size: 2em;
-}
-
-.grid-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(var(--grid-size) * var(--grid-cell-size));
-}
-.grid-row {
-    display: flex;
-}
-
-.grid-cell {
-    width: var(--grid-cell-size);
-    aspect-ratio: 1 / 1;
-    border: 1px solid whitesmoke;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.grid-cell:hover {
-    cursor: pointer;
-    background: #61dafb;
-}
-.grid-cell--disabled {
-    pointer-events: none;
-    cursor: default;
-    background-color: darkgray;
+    --board-cell-size: 2em;
 }
 
 .game_btn {

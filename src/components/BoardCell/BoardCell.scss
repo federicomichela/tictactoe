@@ -1,0 +1,20 @@
+.board-cell {
+  width: var(--board-cell-size);
+  aspect-ratio: 1 / 1;
+  border: 1px solid whitesmoke;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+    background: #61dafb;
+  }
+
+  &--disabled {
+    pointer-events: none;
+    cursor: default;
+    background-color: darkgray;
+  }
+}

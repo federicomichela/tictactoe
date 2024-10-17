@@ -5,51 +5,51 @@ enum TicTacToeSymbols { // TODO: customise mapping
     O = 'O'
 }
 
-export enum GameStateStatus {
+export enum MatchStatus {
     IDLE,
     PLAYING,
     GAME_OVER,
     WIN,
 }
 
-export interface GameStateIF {
-    status: GameStateStatus;
+export interface MatchProps {
+    status: MatchStatus;
     currentPlayer: TicTacToeSymbols,
     boardSize: number,
     board: (string|null)[][]
 }
 
-const initialState: GameStateIF = {
-    status: GameStateStatus.IDLE,
+const initialState: MatchProps = {
+    status: MatchStatus.IDLE,
     currentPlayer: TicTacToeSymbols.X,
     boardSize: 3,
     board: Array(3).fill(null).map(() => Array(3).fill(null)),
 }
 
-export const gameStateSlice = createSlice({
-    name: 'gameState',
+export const matchSlice = createSlice({
+    name: 'match',
     initialState,
     reducers: {
-        setBoardSize(state: GameStateIF, action: PayloadAction<number>) {
-            if (state.status === GameStateStatus.IDLE) {
+        setBoardSize(state: MatchProps, action: PayloadAction<number>) {
+            if (state.status === MatchStatus.IDLE) {
                 state.boardSize = action.payload;
             }
         },
-        resetBoard(state: GameStateIF) {
+        resetBoard(state: MatchProps) {
             Object.assign(state, initialState);
         },
-        makeMove(state: GameStateIF, action: PayloadAction<{x:number, y:number}>) {
+        makeMove(state: MatchProps, action: PayloadAction<{x:number, y:number}>) {
             const { x, y } = action.payload;
 
-            if (state.status === GameStateStatus.IDLE) {
-                state.status = GameStateStatus.PLAYING;
+            if (state.status === MatchStatus.IDLE) {
+                state.status = MatchStatus.PLAYING;
             }
 
-            if (state.status === GameStateStatus.PLAYING && state.board[x][y] === null) {
+            if (state.status === MatchStatus.PLAYING && state.board[x][y] === null) {
                 state.board[x][y] = state.currentPlayer;
                 state.status = checkGameStatus(state.board, state.currentPlayer);
 
-                if (state.status === GameStateStatus.PLAYING) {
+                if (state.status === MatchStatus.PLAYING) {
                     state.currentPlayer = state.currentPlayer === TicTacToeSymbols.X ? TicTacToeSymbols.O : TicTacToeSymbols.X;
                 }
             }
@@ -58,23 +58,23 @@ export const gameStateSlice = createSlice({
     }
 })
 
-function checkGameStatus(board: (string|null)[][], symbol: TicTacToeSymbols):GameStateStatus {
+function checkGameStatus(board: (string|null)[][], symbol: TicTacToeSymbols):MatchStatus {
     const boardSize = board.length;
 
     // check for idle
     if (board.every((row) => row.every((cell) => cell === null))) {
-        return GameStateStatus.IDLE
+        return MatchStatus.IDLE
     }
 
     for (let index = 0; index < boardSize; index++) {
         // check rows
         if (board[index].every((cell) => cell === symbol)) {
-            return GameStateStatus.WIN;
+            return MatchStatus.WIN;
         }
 
         // check cols
         if (board.every((row) => row[index] !== null && row[index] === symbol)) {
-            return GameStateStatus.WIN;
+            return MatchStatus.WIN;
         }
     }
 
@@ -86,15 +86,15 @@ function checkGameStatus(board: (string|null)[][], symbol: TicTacToeSymbols):Gam
     console.log(movesLeft);
 
     if (leftDiagonal || rightDiagonal) {
-        return GameStateStatus.WIN;
+        return MatchStatus.WIN;
     }
 
     if (!movesLeft) {
-        return GameStateStatus.GAME_OVER;
+        return MatchStatus.GAME_OVER;
     }
 
-    return GameStateStatus.PLAYING;
+    return MatchStatus.PLAYING;
 }
 
-export const gameStateActions = gameStateSlice.actions;
-export default gameStateSlice.reducer;
+export const matchActions = matchSlice.actions;
+export default matchSlice.reducer;
