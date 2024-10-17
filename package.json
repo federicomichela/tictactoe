@@ -2,6 +2,14 @@
   "name": "tic-tac-toe",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "url": "https://github.com/federicomichela/tictactoe",
+    "type": "git"
+  },
+  "author": {
+    "name": "Michela Federico",
+    "email": "info@michelafederico.com"
+  },
   "dependencies": {
     "@headlessui/react": "^2.1.10",
     "@heroicons/react": "^2.1.5",

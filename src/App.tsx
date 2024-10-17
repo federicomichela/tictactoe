@@ -17,7 +17,7 @@ function App() {
         </p>
         <a
           className="App-link"
-          href=""
+          href="https://github.com/federicomichela/tictactoe"
           target="_blank"
           rel="noopener noreferrer"
         >
