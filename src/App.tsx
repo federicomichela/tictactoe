@@ -11,10 +11,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <h1>TIC TAC TOE</h1>
         <TicTacToe size={boardSize} />
-        <p>
-          Tic Tac Toe
-        </p>
         <a
           className="App-link"
           href="https://github.com/federicomichela/tictactoe"
