@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build app
-        run: npm run build
+        run: PUBLIC_URL=/tictactoe npm run build
 
       # Upload the /build folder as an artifact
       - name: Upload build artifacts
