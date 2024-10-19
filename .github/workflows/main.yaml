@@ -2,14 +2,13 @@ name: Upload Website
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main  # Or the branch to trigger the workflow
 
 jobs:
+  # Job 1: Build stage
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,11 +24,34 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Upload to S3
-        uses: jakejarvis/s3-sync-action@master
+      # Upload the /build folder as an artifact
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact    # Name the artifact
+          path: build/            # Specify the directory to upload
+
+  # Job 2: Deploy stage (runs after build)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  # Ensure that 'build' job is successful before deploying
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Download the build artifact (previously uploaded in the build job)
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact  # Must match the name used in 'upload-artifact'
+          path: build/          # Path to where the artifact will be restored
+
+      # Sync build folder to S3 /tictactoe
+      - name: Sync build folder to S3 /tictactoe
+        uses: jakejarvis/s3-sync-action@v0.5.1
         env:
-          SOURCE_DIR: build/
-          DEST_DIR: tictactoe/
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: build/
+          DEST_DIR: tictactoe/
